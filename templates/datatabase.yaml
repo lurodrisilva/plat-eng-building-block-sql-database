@@ -22,8 +22,8 @@ metadata:
     {{- include "myorg.labels" $ | nindent 4 }}
 type: kubernetes.io/basic-auth
 stringData:
-username: {{ $sql.user }}
-password: {{ $sql.password }}
+  username: {{ $sql.user }}
+  password: {{ $sql.password }}
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
