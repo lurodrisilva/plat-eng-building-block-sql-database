@@ -5,6 +5,6 @@ type: application
 version: "0.1.0"
 appVersion: "0.1.0"
 dependencies:
-  - name: sql-database
+  - name: plat-eng-sql-database-package
     version: "0.1.0"
     repository: "file://../../"
