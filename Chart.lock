@@ -1,0 +1,6 @@
+dependencies:
+- name: plat-eng-commons-package
+  repository: oci://ghcr.io/lurodrisilva/helm-charts
+  version: 0.1.0
+digest: sha256:41fa0f40a646050e92b0a416290cc6efa5c675105de610c26d7faf7a869b98ba
+generated: "2026-03-11T23:58:28.711964-03:00"

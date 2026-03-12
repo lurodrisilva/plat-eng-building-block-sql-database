@@ -1,0 +1,63 @@
+# DOCS: https://cloudnative-pg.io/documentation/1.27/quickstart/
+---
+{{- if .Values.databases.sql }}
+{{- range $index, $sql := .Values.databases.sql }}
+{{- if $sql.migration }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $sql.name }}-schema-init
+  labels:
+    {{- include "myorg.labels" $ | nindent 4 }}
+data:
+  {{ $sql.name }}.sql: |-
+{{ $sql.migration | indent 4 }}
+{{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $sql.name }}-secret
+  labels:
+    {{- include "myorg.labels" $ | nindent 4 }}
+type: kubernetes.io/basic-auth
+stringData:
+username: {{ $sql.user }}
+password: {{ $sql.password }}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ $sql.name }}
+  labels:
+    {{- include "myorg.labels" $ | nindent 4 }}
+spec:
+  instances: {{ $sql.instances }}
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.3
+  superuserSecret:
+    name: superuser-secret
+  bootstrap:
+    initdb:
+      database: {{ $sql.name }}-db
+      owner: {{ $sql.user }}
+      secret:
+        name: {{ $sql.name }}-secret
+      # encoding: UTF8
+{{- if $sql.migration }}
+      postInitApplicationSQLRefs:
+        configMapRefs:
+          - name: {{ $sql.name }}-schema-init
+            key: {{ $sql.name }}.sql
+{{- end }}
+  storage:
+    storageClass: managed-csi-premium
+    size: {{ $sql.storage.size }}
+  # monitoring:
+  #   enablePodMonitor: true
+  #   podMonitorLabels:
+  #     release: kube-prometheus-stack
+  #   podMonitorMetricRelabelings:
+  #   - sourceLabels: [cluster]
+  #     targetLabel: cnpg_cluster
+{{ end -}}
+{{ end -}}

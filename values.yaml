@@ -1,0 +1,58 @@
+nameOverride: ""
+fullnameOverride: ""
+
+commonLabels: {}
+commonAnnotations: {}
+
+team: ""
+environment: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created.
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account.
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template.
+  name: ""
+
+resources: {}
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+# cpu: 100m
+# memory: 128Mi
+# requests:
+# cpu: 100m
+# memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+databases:
+  sql:
+    - name: my-sql
+      user: my_sql_user
+      password: my-sql-password
+      instances: 1
+      storage:
+        size: 1Gi
+      # migration: |
+      # DO $$
+      # BEGIN
+      # IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'my_sql_user') THEN
+      # CREATE ROLE my_sql_user LOGIN PASSWORD 'my-sql-password';
+      # END IF;
+      # END$$;
+      # CREATE TABLE IF NOT EXISTS my_table (
+      # id SERIAL PRIMARY KEY,
+      # name VARCHAR(255) NOT NULL
+      # );
+      # GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO my_sql_user;
