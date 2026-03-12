@@ -56,6 +56,9 @@ tests:
       - equal:
           path: spec.bootstrap.initdb.secret.name
           value: test-db-secret
+      - equal:
+          path: spec.imageName
+          value: ghcr.io/cloudnative-pg/postgresql:18.3
 
   - it: "does NOT render ConfigMap when no migration defined (default)"
     asserts:
@@ -85,6 +88,8 @@ tests:
       - equal:
           path: metadata.name
           value: test-db-schema-init
+      - isNotNull:
+          path: data["test-db.sql"]
 
   - it: "Cluster has postInitApplicationSQLRefs when migration is set"
     set:
