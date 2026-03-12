@@ -1,6 +1,6 @@
 suite: test datatabase.yaml template
 templates:
-  - charts/sql-database/templates/datatabase.yaml
+  - charts/plat-eng-sql-database-package/templates/datatabase.yaml
 
 tests:
   - it: "renders Secret with correct name"
@@ -73,7 +73,7 @@ tests:
 
   - it: "renders ConfigMap when migration is set"
     set:
-      sql-database.databases.sql:
+      plat-eng-sql-database-package.databases.sql:
         - name: test-db
           user: test_user
           password: test-password
@@ -93,7 +93,7 @@ tests:
 
   - it: "Cluster has postInitApplicationSQLRefs when migration is set"
     set:
-      sql-database.databases.sql:
+      plat-eng-sql-database-package.databases.sql:
         - name: test-db
           user: test_user
           password: test-password
@@ -108,7 +108,7 @@ tests:
 
   - it: "renders correct number of resources for 2 databases (4 docs: 2 Secrets + 2 Clusters)"
     set:
-      sql-database.databases.sql:
+      plat-eng-sql-database-package.databases.sql:
         - name: db-one
           user: user_one
           password: pass_one

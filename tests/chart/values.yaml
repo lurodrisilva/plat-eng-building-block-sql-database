@@ -1,4 +1,4 @@
-sql-database:
+plat-eng-sql-database-package:
   team: "test-team"
   environment: "test"
   serviceAccount:

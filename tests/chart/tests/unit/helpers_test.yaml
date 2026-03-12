@@ -1,23 +1,23 @@
-suite: test sql-database.serviceAccountName helper
+suite: test plat-eng-sql-database-package.serviceAccountName helper
 templates:
-  - charts/sql-database/templates/serviceaccount.yaml
+  - charts/plat-eng-sql-database-package/templates/serviceaccount.yaml
 
 tests:
   - it: "serviceAccountName — create=true, name empty: uses myorg.fullname"
     set:
-      sql-database.serviceAccount.create: true
-      sql-database.serviceAccount.name: ""
+      plat-eng-sql-database-package.serviceAccount.create: true
+      plat-eng-sql-database-package.serviceAccount.name: ""
     asserts:
       - isNotNull:
           path: metadata.name
       - matchRegex:
           path: metadata.name
-          pattern: "sql-database"
+          pattern: "plat-eng-sql-database-package"
 
   - it: "serviceAccountName — create=true, name set: uses custom name"
     set:
-      sql-database.serviceAccount.create: true
-      sql-database.serviceAccount.name: "my-custom-sa"
+      plat-eng-sql-database-package.serviceAccount.create: true
+      plat-eng-sql-database-package.serviceAccount.name: "my-custom-sa"
     asserts:
       - equal:
           path: metadata.name
@@ -25,16 +25,16 @@ tests:
 
   - it: "serviceAccountName — create=false, name empty: falls back to 'default'"
     set:
-      sql-database.serviceAccount.create: false
-      sql-database.serviceAccount.name: ""
+      plat-eng-sql-database-package.serviceAccount.create: false
+      plat-eng-sql-database-package.serviceAccount.name: ""
     asserts:
       - hasDocuments:
           count: 0
 
   - it: "serviceAccountName — create=false, name set: uses custom name (but no SA created)"
     set:
-      sql-database.serviceAccount.create: false
-      sql-database.serviceAccount.name: "explicit-sa"
+      plat-eng-sql-database-package.serviceAccount.create: false
+      plat-eng-sql-database-package.serviceAccount.name: "explicit-sa"
     asserts:
       - hasDocuments:
           count: 0
