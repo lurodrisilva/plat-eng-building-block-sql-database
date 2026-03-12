@@ -126,6 +126,7 @@ Optional scope in parentheses: `fix(templates):`, `chore(ci):`
 
 ## Workflow
 
+- **Never push directly to master.** Always work on a feature branch and open a Pull Request.
 - Always create a Pull Request when finishing changes. Do not leave committed work on a branch without a PR.
 - Run `make all` before committing to verify nothing is broken.
 - When modifying templates, run the relevant single test file first for fast feedback.
