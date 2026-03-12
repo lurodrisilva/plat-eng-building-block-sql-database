@@ -1,3 +1,6 @@
+# Sisyphus orchestration files (internal planning/evidence)
+.sisyphus*
+
 # Helm
 Chart.lock
 charts/

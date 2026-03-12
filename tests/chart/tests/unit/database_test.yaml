@@ -1,0 +1,121 @@
+suite: test datatabase.yaml template
+templates:
+  - charts/sql-database/templates/datatabase.yaml
+
+tests:
+  - it: "renders Secret with correct name"
+    documentIndex: 0
+    asserts:
+      - isKind:
+          of: Secret
+      - equal:
+          path: metadata.name
+          value: test-db-secret
+
+  - it: "Secret has correct type kubernetes.io/basic-auth"
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: type
+          value: kubernetes.io/basic-auth
+
+  - it: "Secret has correct stringData username and password"
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: stringData.username
+          value: test_user
+      - equal:
+          path: stringData.password
+          value: test-password
+
+  - it: "renders CNPG Cluster with correct name"
+    documentIndex: 1
+    asserts:
+      - isKind:
+          of: Cluster
+      - equal:
+          path: metadata.name
+          value: test-db
+
+  - it: "Cluster has correct spec: instances, storage, bootstrap"
+    documentIndex: 1
+    asserts:
+      - equal:
+          path: spec.instances
+          value: 1
+      - equal:
+          path: spec.storage.size
+          value: 1Gi
+      - equal:
+          path: spec.bootstrap.initdb.database
+          value: test-db-db
+      - equal:
+          path: spec.bootstrap.initdb.owner
+          value: test_user
+      - equal:
+          path: spec.bootstrap.initdb.secret.name
+          value: test-db-secret
+
+  - it: "does NOT render ConfigMap when no migration defined (default)"
+    asserts:
+      - hasDocuments:
+          count: 2
+
+  - it: "Cluster does NOT have postInitApplicationSQLRefs when no migration"
+    documentIndex: 1
+    asserts:
+      - isNull:
+          path: spec.bootstrap.initdb.postInitApplicationSQLRefs
+
+  - it: "renders ConfigMap when migration is set"
+    set:
+      sql-database.databases.sql:
+        - name: test-db
+          user: test_user
+          password: test-password
+          instances: 1
+          storage:
+            size: 1Gi
+          migration: "CREATE TABLE test (id INT);"
+    documentIndex: 0
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: metadata.name
+          value: test-db-schema-init
+
+  - it: "Cluster has postInitApplicationSQLRefs when migration is set"
+    set:
+      sql-database.databases.sql:
+        - name: test-db
+          user: test_user
+          password: test-password
+          instances: 1
+          storage:
+            size: 1Gi
+          migration: "CREATE TABLE test (id INT);"
+    documentIndex: 2
+    asserts:
+      - isNotNull:
+          path: spec.bootstrap.initdb.postInitApplicationSQLRefs
+
+  - it: "renders correct number of resources for 2 databases (4 docs: 2 Secrets + 2 Clusters)"
+    set:
+      sql-database.databases.sql:
+        - name: db-one
+          user: user_one
+          password: pass_one
+          instances: 1
+          storage:
+            size: 1Gi
+        - name: db-two
+          user: user_two
+          password: pass_two
+          instances: 2
+          storage:
+            size: 2Gi
+    asserts:
+      - hasDocuments:
+          count: 4
