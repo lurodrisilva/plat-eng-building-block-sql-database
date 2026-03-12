@@ -1,5 +1,5 @@
 apiVersion: v2
-name: sql-database
+name: plat-eng-sql-database-package
 description: A Helm chart for Kubernetes Building Block for SQL Databases
 
 # A chart can be either an 'application' or a 'library' chart.

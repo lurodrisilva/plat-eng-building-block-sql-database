@@ -1,5 +1,5 @@
 apiVersion: v2
-name: sql-database-tests
+name: plat-eng-sql-database-package-tests
 description: Test wrapper chart for sql-database
 type: application
 version: "0.1.0"
