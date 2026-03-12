@@ -1,0 +1,16 @@
+sql-database:
+  team: "test-team"
+  environment: "test"
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
+  databases:
+    sql:
+      - name: test-db
+        user: test_user
+        password: test-password
+        instances: 1
+        storage:
+          size: 1Gi

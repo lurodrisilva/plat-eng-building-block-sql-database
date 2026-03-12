@@ -1,0 +1,10 @@
+apiVersion: v2
+name: sql-database-tests
+description: Test wrapper chart for sql-database
+type: application
+version: "0.1.0"
+appVersion: "0.1.0"
+dependencies:
+  - name: sql-database
+    version: "0.1.0"
+    repository: "file://../../"

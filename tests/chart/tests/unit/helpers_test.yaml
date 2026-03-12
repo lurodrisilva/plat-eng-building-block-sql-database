@@ -1,0 +1,40 @@
+suite: test sql-database.serviceAccountName helper
+templates:
+  - charts/sql-database/templates/serviceaccount.yaml
+
+tests:
+  - it: "serviceAccountName — create=true, name empty: uses myorg.fullname"
+    set:
+      sql-database.serviceAccount.create: true
+      sql-database.serviceAccount.name: ""
+    asserts:
+      - isNotNull:
+          path: metadata.name
+      - matchRegex:
+          path: metadata.name
+          pattern: "sql-database"
+
+  - it: "serviceAccountName — create=true, name set: uses custom name"
+    set:
+      sql-database.serviceAccount.create: true
+      sql-database.serviceAccount.name: "my-custom-sa"
+    asserts:
+      - equal:
+          path: metadata.name
+          value: "my-custom-sa"
+
+  - it: "serviceAccountName — create=false, name empty: falls back to 'default'"
+    set:
+      sql-database.serviceAccount.create: false
+      sql-database.serviceAccount.name: ""
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: "serviceAccountName — create=false, name set: uses custom name (but no SA created)"
+    set:
+      sql-database.serviceAccount.create: false
+      sql-database.serviceAccount.name: "explicit-sa"
+    asserts:
+      - hasDocuments:
+          count: 0
