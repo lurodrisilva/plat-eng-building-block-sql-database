@@ -12,7 +12,7 @@ plugin-install: ## Install helm-unittest plugin and lint tools
 
 ## Build chart dependencies (main chart + test wrapper)
 dep-build: ## Build helm dependencies for main chart and test wrapper
-	@echo "Building sql-database dependencies..."
+	@echo "Building plat-eng-sql-database-package dependencies..."
 	helm dependency build .
 	@echo "Building test chart dependencies..."
 	helm dependency build tests/chart
@@ -20,7 +20,7 @@ dep-build: ## Build helm dependencies for main chart and test wrapper
 
 ## Lint the chart with helm
 lint: ## Lint the Helm chart with helm lint
-	@echo "Linting sql-database..."
+	@echo "Linting plat-eng-sql-database-package..."
 	helm lint .
 	@echo ""
 	@echo "Helm lint passed"
@@ -34,7 +34,7 @@ yamllint: ## Lint YAML files with yamllint
 ## Validate rendered manifests with kubeconform
 kubeconform: ## Validate rendered Kubernetes manifests with kubeconform
 	@echo "Running kubeconform..."
-	helm template sql-database . | kubeconform --strict --ignore-missing-schemas
+	helm template plat-eng-sql-database-package . | kubeconform --strict --ignore-missing-schemas
 	@echo "kubeconform passed"
 
 ## Run all linting tools (helm lint + yamllint + kubeconform)
@@ -67,14 +67,14 @@ snapshot-update: ## Update helm-unittest snapshots
 
 ## Package the chart into a .tgz archive
 package: ## Package the chart into a versioned .tgz archive
-	@echo "Packaging sql-database..."
+	@echo "Packaging plat-eng-sql-database-package..."
 	helm package .
 	@echo "Package complete"
 
 ## Remove packaged .tgz archive
 clean: ## Remove packaged .tgz archive
-	@echo "Cleaning sql-database..."
-	rm -f sql-database-*.tgz
+	@echo "Cleaning plat-eng-sql-database-package..."
+	rm -f plat-eng-sql-database-package-*.tgz
 	@echo "Cleanup complete"
 
 ## Run all linting and tests
