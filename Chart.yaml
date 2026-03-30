@@ -23,6 +23,22 @@ version: 0.1.0
 # It is recommended to use it with quotes.
 appVersion: "0.1.0"
 
+keywords:
+  - database
+  - sql
+  - cloudnative-pg
+  - postgresql
+  - platform-engineering
+
+home: https://github.com/your-org/plat-eng-building-block-database
+
+sources:
+  - https://github.com/your-org/plat-eng-building-block-database
+
+maintainers:
+  - name: Platform Engineering
+    email: platform-engineering@your-org.com
+
 dependencies:
   - name: plat-eng-commons-package
     version: "0.1.0"

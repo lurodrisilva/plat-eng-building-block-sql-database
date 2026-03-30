@@ -1,10 +1,16 @@
+# nameOverride is an optional override for the chart name used in resource naming.
 nameOverride: ""
+# fullnameOverride is an optional override for the fully qualified resource name.
 fullnameOverride: ""
 
+# commonLabels is a map of additional labels to apply to all resources.
 commonLabels: {}
+# commonAnnotations is a map of additional annotations for resources.
 commonAnnotations: {}
 
+# team is the team identifier for resource ownership tracking.
 team: ""
+# environment is the deployment environment name (e.g., dev, staging, production).
 environment: ""
 
 serviceAccount:
